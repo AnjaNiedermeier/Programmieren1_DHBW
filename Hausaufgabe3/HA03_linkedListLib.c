@@ -59,7 +59,7 @@ void delListElem(listElement *start)
     int index;
     int i = 0;
     if(start->nextElem == NULL){
-        printf("The list is already empty\n\n");
+        printf("List is already empty\n\n");
         return;
     }
     
@@ -120,11 +120,40 @@ int getLenOfList(listElement *start)
 
 void saveList(listElement *start)
 {
+    FILE *fp;
+    char filename[50];
+     
+    printf("Type in filename:");
+    scanf("%s", filename);
+    strcat(filename, ".txt");
+    printf("\nfilename: %s\n", filename);
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    //open output File
+    fp = fopen(filename, "w");
+    if(fp == NULL){
+        printf("Could not create file");
+        return;
+    }
 
-    printf("\n>> saveList fcn is tbd.\n\n");
+    if (start->nextElem != NULL)
+    {
+        int i = 0;
+        listElement *currElem = start;
+        fprintf(fp, "list contents:\n\n");
+        do
+        {
+            currElem = currElem->nextElem;
+            fprintf(fp, "%d", i);
+            i++;
+            fprintf(fp, "\t last name: %s\n", currElem->lastName);
+            fprintf(fp, "\t first name: %s\n", currElem->firstName);
+            fprintf(fp, "\t age: %d\n", currElem->age);
+        } while (currElem->nextElem != NULL);
+    }
+    fprintf(fp, "\n");
+
+    fclose(fp);
+    printf("saving completed\n\n", filename);
 }
 
 void loadList(listElement *start)
