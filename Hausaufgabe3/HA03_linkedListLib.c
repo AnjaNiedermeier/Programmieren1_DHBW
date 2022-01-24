@@ -135,19 +135,17 @@ void saveList(listElement *start)
         return;
     }
 
+    fprintf(fp,"%d\n", getLenOfList(start));
+
     if (start->nextElem != NULL)
     {
-        int i = 0;
         listElement *currElem = start;
-        fprintf(fp, "list contents:\n\n");
         do
         {
             currElem = currElem->nextElem;
-            fprintf(fp, "%d", i);
-            i++;
-            fprintf(fp, "\t last name: %s\n", currElem->lastName);
-            fprintf(fp, "\t first name: %s\n", currElem->firstName);
-            fprintf(fp, "\t age: %d\n", currElem->age);
+            fprintf(fp, "%s\n", currElem->lastName);
+            fprintf(fp, "%s\n", currElem->firstName);
+            fprintf(fp, "%d\n", currElem->age);
         } while (currElem->nextElem != NULL);
     }
     fprintf(fp, "\n");
@@ -156,17 +154,52 @@ void saveList(listElement *start)
     printf("saving completed\n\n", filename);
 }
 
+
 void loadList(listElement *start)
 {
+    char filename[50];
+    int listLength;
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    delList(start);
 
-    printf("\n>> loadList fcn is tbd.\n\n");
+    printf("Type name of desired dataset: \n");
+    system("dir *.txt");
+    scanf("%s", filename);
 
+    //open file
+    FILE *fp = fopen(filename, "r");
+    if(fp == NULL){
+        printf("File could not be loaded\n");
+        return;
+    }
+
+    fscanf(fp, "%d", &listLength);
+
+    for(int i = 0; i < listLength; i++){
+        listElement *new;
+        new = (listElement *)malloc(sizeof(listElement));
+        if (new == NULL)
+        {
+            printf("can't reserve storage.\n");
+            return;
+        }
+
+        listElement *currElem = start;
+        while (currElem->nextElem != NULL)
+            currElem = currElem->nextElem; // get last elem in list
+        currElem->nextElem = new;          // add new to the end of list
+        new->nextElem = NULL;
+
+        /* fill data in new element */
+        fscanf(fp,"%s", new->lastName);
+        fscanf(fp,"%s", new->firstName);
+        fscanf(fp,"%d", &(new->age));
+        
+    }   
     printf("loading data will be append to current list...\n");
     printList(start); // show loaded list
 }
+
 
 void exitFcn(listElement *start)
 {
