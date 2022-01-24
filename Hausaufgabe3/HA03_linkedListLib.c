@@ -86,11 +86,23 @@ void delListElem(listElement *start)
 
 void delList(listElement *start)
 {
+    if(start->nextElem == NULL){
+        printf("List is already empty\n\n");
+        return;
+    }
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    listElement *currElem = start->nextElem;
+    listElement *next = NULL;
+    while (currElem->nextElem != NULL)
+    {
+        next = currElem->nextElem;
+        free(currElem);
+        currElem = next;
+    }
+    
+    start->nextElem = NULL;
 
-    printf("\n>> getLenOfList fcn is tbd.\n\n");
+    printf("\nList was deleted.\n\n");
 }
 
 int getLenOfList(listElement *start)
