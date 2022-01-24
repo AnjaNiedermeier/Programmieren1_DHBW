@@ -1,7 +1,7 @@
 #ifndef HA03_LINKEDLISTLIB_H_
 #define HA03_LINKEDLISTLIB_H_
 /** 
-    \STRUCT: listElement
+    \STRUCT: listElement 
  
     \AUTHOR: jannik wiessler
 
