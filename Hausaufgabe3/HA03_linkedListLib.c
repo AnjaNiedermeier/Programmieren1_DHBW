@@ -55,11 +55,33 @@ void printList(listElement *start)
 
 void delListElem(listElement *start)
 {
+    listElement *currentElem = start;
+    int index;
+    int i = 0;
+    if(start->nextElem == NULL){
+        printf("The list is already empty\n\n");
+        return;
+    }
+    
+    printf("Which element do you want to delete?\n");
+    printList(start);
+    scanf("%d", &index);
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    do{
+        if(i == index){
+            listElement *deletedElem = currentElem->nextElem;
+            currentElem->nextElem = currentElem->nextElem->nextElem; 
+            free(deletedElem);
+            printf("\nElement %d was deleted\n\n", index);
+            return;
+        }
+        else{
+            currentElem = currentElem->nextElem;
+        }
+        i++;
+    }while(currentElem->nextElem != NULL);
 
-    printf("\n>> delListElem fcn is tbd.\n\n");
+    printf("\nCould not find Element %d\n\n", index);
 }
 
 void delList(listElement *start)
