@@ -27,7 +27,6 @@ void addListElem(listElement *start)
     scanf("%s", new->firstName);
     printf("Please enter age: \n");
     scanf("%d", &(new->age));
-    printf("end of function\n");
 }
 
 void printList(listElement *start)
