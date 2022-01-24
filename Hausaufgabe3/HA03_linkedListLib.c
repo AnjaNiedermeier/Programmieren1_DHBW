@@ -203,8 +203,30 @@ void loadList(listElement *start)
 
 void exitFcn(listElement *start)
 {
+    int choice=-1;
+    int exitComplete=0;
 
-    printf("\n>> exitFcn fcn is tbd.\n\n");
+    printf("Do you want to save your current list?\n");
+    printf("1...Yes\n");
+    printf("0...No\n");
+
+    while(!exitComplete){
+        scanf("%d", &choice);
+    
+        if(choice != 1 && choice != 0){
+            printf("Error. Type in 1 or 0\n");
+        }
+        else if(choice==1){
+            saveList(start);
+            exitComplete=1;
+        }
+        else{
+            exitComplete=1;
+        }
+    }
+
+    printf("Exited Program\n");
+    
 }
 
 void sortList(listElement *start)
