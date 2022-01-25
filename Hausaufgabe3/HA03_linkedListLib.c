@@ -147,7 +147,7 @@ void saveList(listElement *start)
     fprintf(fp, "\n");
 
     fclose(fp);
-    printf("saving completed\n\n", filename);
+    printf("saving complete\n\n", filename);
 }
 
 void addSavedElem(listElement *start, FILE *fp){
@@ -217,8 +217,9 @@ void exitFcn(listElement *start)
             saveList(start);
             exitComplete=1;
         }
-        else{
-            exitComplete=1;
+        else 
+        {
+            exitComplete=1; 
         }
     }
 
