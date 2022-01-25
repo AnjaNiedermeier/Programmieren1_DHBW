@@ -99,6 +99,7 @@ void delList(listElement *start)
         currElem = next;
     }
     
+    free(currElem);
     start->nextElem = NULL;
 
     printf("\nList was deleted.\n\n");
@@ -106,7 +107,7 @@ void delList(listElement *start)
 
 int getLenOfList(listElement *start)
 { // we use this for save list fcn
-
+    
     int counter = 0;
     listElement *currElem = start;
     while (currElem->nextElem != NULL)
