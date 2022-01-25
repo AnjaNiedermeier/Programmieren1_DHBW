@@ -5,7 +5,6 @@
 
 void addListElem(listElement *start)
 {
-
     listElement *new;
     new = (listElement *)malloc(sizeof(listElement));
     if (new == NULL)
@@ -128,14 +127,13 @@ void saveList(listElement *start)
     strcat(filename, ".txt");
     printf("\nfilename: %s\n", filename);
 
-    //open output File
     fp = fopen(filename, "w");
     if(fp == NULL){
         printf("Could not create file");
         return;
     }
 
-    fprintf(fp,"%d\n", getLenOfList(start));
+    fprintf(fp,"%d\n", getLenOfList(start));//Länge der Liste in erste Zeile für erleichtertes einlesen später
 
     listElement *currElem = start;
     for(int i = 0; i < getLenOfList(start); i++){
@@ -147,7 +145,7 @@ void saveList(listElement *start)
     fprintf(fp, "\n");
 
     fclose(fp);
-    printf("saving complete\n\n", filename);
+    printf("saving complete\n\n");
 }
 
 void addSavedElem(listElement *start, FILE *fp){
@@ -161,8 +159,8 @@ void addSavedElem(listElement *start, FILE *fp){
 
     listElement *currElem = start;
     while (currElem->nextElem != NULL)
-        currElem = currElem->nextElem; // get last elem in list
-    currElem->nextElem = new;          // add new to the end of list
+        currElem = currElem->nextElem; 
+    currElem->nextElem = new;          
     new->nextElem = NULL;
 
     /* fill data in new element */
@@ -176,6 +174,7 @@ void loadList(listElement *start)
 {
     char filename[50];
     int listLength;
+    FILE *fp;
 
     delList(start);
 
@@ -183,7 +182,7 @@ void loadList(listElement *start)
     system("dir *.txt");
     scanf("%s", filename);
 
-    FILE *fp = fopen(filename, "r");
+    fp = fopen(filename, "r");
     if(fp == NULL){
         printf("File could not be loaded\n");
         return;
@@ -194,7 +193,7 @@ void loadList(listElement *start)
     }   
 
     printf("loading data will be append to current list...\n");
-    printList(start); // show loaded list
+    printList(start); 
 }
 
 
