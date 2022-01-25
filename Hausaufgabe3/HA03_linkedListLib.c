@@ -54,7 +54,7 @@ void printList(listElement *start)
 void delListElem(listElement *start)
 {
     listElement *currentElem = start;
-    int index;
+    int elementToDelete;
     int i = 0;
     if(start->nextElem == NULL){
         printf("List is already empty\n\n");
@@ -63,14 +63,14 @@ void delListElem(listElement *start)
     
     printf("Which element do you want to delete?\n");
     printList(start);
-    scanf("%d", &index);
+    scanf("%d", &elementToDelete);
 
     do{
-        if(i == index){
+        if(i == elementToDelete){
             listElement *deletedElem = currentElem->nextElem;
             currentElem->nextElem = currentElem->nextElem->nextElem; 
             free(deletedElem);
-            printf("\nElement %d was deleted\n\n", index);
+            printf("\nElement %d was deleted\n\n", elementToDelete);
             return;
         }
         else{
@@ -79,7 +79,7 @@ void delListElem(listElement *start)
         i++;
     }while(currentElem->nextElem != NULL);
 
-    printf("\nCould not find Element %d\n\n", index);
+    printf("\nCould not find Element %d\n\n", elementToDelete);
 }
 
 void delList(listElement *start)
@@ -176,9 +176,10 @@ void loadList(listElement *start)
     int listLength;
     FILE *fp;
 
-    delList(start);
+    printf("loading data will be append to current list...\n");
+    printList(start);
 
-    printf("Type name of desired dataset: \n");
+    printf("Type name of desired dataset: \n\n");
     system("dir *.txt");
     scanf("%s", filename);
 
@@ -192,8 +193,8 @@ void loadList(listElement *start)
         addSavedElem(start, fp);
     }   
 
-    printf("loading data will be append to current list...\n");
-    printList(start); 
+     printf("dataset was appended\n\n");
+     printList(start);
 }
 
 
