@@ -137,16 +137,12 @@ void saveList(listElement *start)
 
     fprintf(fp,"%d\n", getLenOfList(start));
 
-    if (start->nextElem != NULL)
-    {
-        listElement *currElem = start;
-        do
-        {
-            currElem = currElem->nextElem;
-            fprintf(fp, "%s\n", currElem->lastName);
-            fprintf(fp, "%s\n", currElem->firstName);
-            fprintf(fp, "%d\n", currElem->age);
-        } while (currElem->nextElem != NULL);
+    listElement *currElem = start;
+    for(int i = 0; i < getLenOfList(start); i++){
+        currElem = currElem->nextElem;
+        fprintf(fp, "%s\n", currElem->lastName);
+        fprintf(fp, "%s\n", currElem->firstName);
+        fprintf(fp, "%d\n", currElem->age);
     }
     fprintf(fp, "\n");
 
