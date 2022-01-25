@@ -150,6 +150,27 @@ void saveList(listElement *start)
     printf("saving completed\n\n", filename);
 }
 
+void addSavedElem(listElement *start, FILE *fp){
+    listElement *new;
+    new = (listElement *)malloc(sizeof(listElement));
+    if (new == NULL)
+    {
+        printf("can't reserve storage.\n");
+        return;
+    }
+
+    listElement *currElem = start;
+    while (currElem->nextElem != NULL)
+        currElem = currElem->nextElem; // get last elem in list
+    currElem->nextElem = new;          // add new to the end of list
+    new->nextElem = NULL;
+
+    /* fill data in new element */
+    fscanf(fp,"%s", new->lastName);
+    fscanf(fp,"%s", new->firstName);
+    fscanf(fp,"%d", &(new->age));
+ 
+}
 
 void loadList(listElement *start)
 {
@@ -162,36 +183,16 @@ void loadList(listElement *start)
     system("dir *.txt");
     scanf("%s", filename);
 
-    //open file
     FILE *fp = fopen(filename, "r");
     if(fp == NULL){
         printf("File could not be loaded\n");
         return;
     }
-
     fscanf(fp, "%d", &listLength);
-
     for(int i = 0; i < listLength; i++){
-        listElement *new;
-        new = (listElement *)malloc(sizeof(listElement));
-        if (new == NULL)
-        {
-            printf("can't reserve storage.\n");
-            return;
-        }
-
-        listElement *currElem = start;
-        while (currElem->nextElem != NULL)
-            currElem = currElem->nextElem; // get last elem in list
-        currElem->nextElem = new;          // add new to the end of list
-        new->nextElem = NULL;
-
-        /* fill data in new element */
-        fscanf(fp,"%s", new->lastName);
-        fscanf(fp,"%s", new->firstName);
-        fscanf(fp,"%d", &(new->age));
-        
+        addSavedElem(start, fp);
     }   
+
     printf("loading data will be append to current list...\n");
     printList(start); // show loaded list
 }

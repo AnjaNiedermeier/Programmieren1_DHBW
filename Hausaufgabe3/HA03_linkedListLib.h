@@ -97,6 +97,9 @@ int getLenOfList(listElement *);
 */
 void saveList(listElement *);
 
+//Helping Method vor loadList
+void addSavedElem(listElement *, FILE *);
+
 /** 
     \FUNCTION: loadList
  
