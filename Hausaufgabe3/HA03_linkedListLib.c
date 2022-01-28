@@ -122,7 +122,7 @@ void saveList(listElement *start)
     FILE *fp;
     char filename[50];
      
-    printf("Type in filename:");
+    printf("Type in filename (without '.txt'):");
     scanf("%s", filename);
     strcat(filename, ".txt");
     printf("\nfilename: %s\n", filename);
@@ -193,8 +193,10 @@ void loadList(listElement *start)
         addSavedElem(start, fp);
     }   
 
-     printf("dataset was appended\n\n");
-     printList(start);
+    fclose(fp);
+
+    printf("dataset was appended\n\n");
+    printList(start);
 }
 
 
@@ -208,9 +210,11 @@ void exitFcn(listElement *start)
     printf("0...No\n");
 
     while(!exitComplete){
+        choice=-1;
         scanf("%d", &choice);
     
         if(choice != 1 && choice != 0){
+            fflush(stdin);
             printf("Error. Type in 1 or 0\n");
         }
         else if(choice==1){

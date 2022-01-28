@@ -41,7 +41,7 @@ int main()
     }
     start->nextElem = NULL;
 
-    int FLAGG = 1;
+    int FLAGG = 8;
     while (FLAGG)
     {
 
@@ -53,8 +53,11 @@ int main()
         printf("6... load list\n");
         printf("7... sort list\n");
         printf("0... quit\n");
+
+        FLAGG = 8;
         scanf("%d", &FLAGG);
         system("cls"); // cls for windows
+
 
         switch (FLAGG)
         {
@@ -84,6 +87,7 @@ int main()
             exitFcn(start);
             break;
         default:
+            fflush(stdin);
             printf("invalid choice\n");
             break;
         }
