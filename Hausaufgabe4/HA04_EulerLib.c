@@ -24,53 +24,41 @@ void RHS_MSD(double*rhs, double*y){ // mass spring damper
 void eulerSettings_MSD(simHandle* handle){
 
     /*num of states*/
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    handle->numOfStates = NUMOFSTATES;
     
     /*right hand site*/
-    
-    /* YOUR CODE HERE */
-    /* ---------------*/
-    
+    handle->f = &RHS_MSD;
+   
     /*reserve storage for init state vec*/
-    
-    /* YOUR CODE HERE */
-    /* ---------------*/
-    
+    handle->stateVecInit = malloc(sizeof(double) * handle->numOfStates);
+
     /*get user defined Simtime*/
     printf("Simtime (in s): \n");
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    scanf("%lf", &(handle->simTime));
 
     /*get user defined StepSize*/
     printf("StepSize (in s): \n");
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    scanf("%lf", &(handle->stepSize));
 
     /*get init state position*/
     printf("position(t = 0): \n");
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    scanf("%lf", handle->stateVecInit);
 
     /*get init state speed*/
     printf("speed(t = 0): \n");
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    scanf("%lf", (handle->stateVecInit)+1);
 
     /*reserve storage for states and derivatives*/
-    
-    /* YOUR CODE HERE */ //malloc mit länge double*Num of States*(int)ceil(handle->simTime/handle->stepSize)
-    /* ---------------*///Um alle Lösungen abspeichern zu können
+    int storageLength = handle->numOfStates * ((int)ceil(handle->simTime/handle->stepSize));
+    handle->stateVec = malloc(sizeof(double) * storageLength);
+    handle->derivStateVec = malloc(sizeof(double) * storageLength);
     
     /*init states and derivatives with zero*/
-    
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    for(int i=0; i<storageLength; i++){
+        handle->stateVec[i]=0;
+        handle->derivStateVec[i]=0;
+    }
+
 }
 
 void eulerForward(simHandle* handle){ // this is called only once
@@ -84,30 +72,49 @@ void eulerForward(simHandle* handle){ // this is called only once
 
     for(int i = 0; i < integratorSteps; i++){
         /*get derivatives*/
-        //in derivStateVec[i*2] und derivStateVec[i*2 +1] ablegen
-        /* YOUR CODE HERE */
-        /* ---------------*/
+        RHS_MSD((handle->derivStateVec)+i*2, (handle->stateVec)+i*2);
+
         for(int j = 0; j < numOfStates; j++){
         /*euler step*/
-
-        /* YOUR CODE HERE */
-        /* ---------------*/// also y = y + (h*f); für beide stellen des statevektors
-
+            handle->stateVec[((i+1)*2)+j] = handle->stateVec[(i*2)+j] + (handle->stepSize * handle->derivStateVec[(i*2)+j]);
+     
        }
     }
 }
 
 void showResults_MSD(simHandle* handle){
+    int integratorSteps = (int)ceil(handle->simTime/handle->stepSize);
 
     /*print data to text file*/
+    FILE *fp = fopen("simData.txt", "w");
+    if(fp == NULL){
+        printf("ERROR: Could not create 'simData.txt'\n");
+        return;
+    }
 
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    for(int i=0; i < integratorSteps; i++){
+        fprintf(fp, "%lf ", i*handle->stepSize);
+        fprintf(fp, "%lf ", handle->stateVec[i*2]);
+        fprintf(fp, "%lf\n", handle->stateVec[(i*2)+1]);
+    }
 
+    fclose(fp);
+    
     /*call gnuplot*/
     
-    /* YOUR CODE HERE */
-    /* ---------------*/
+    FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
 
+    fprintf(gnuplotPipe, "set title 'Spring-Damper-System' font ',20'\n");
+    fprintf(gnuplotPipe, "set key right box\n");
+    fprintf(gnuplotPipe, "set xlabel 'time in s'\n");
+    fprintf(gnuplotPipe, "set terminal wxt size 1300,600\n");
+
+    fprintf(gnuplotPipe, "plot 'simData.txt' using 1:2 title 'position', 'simData.txt' using 1:3 title 'speed'\n");
+    
+    fprintf(gnuplotPipe, "exit");
+
+    fclose(gnuplotPipe);
+
+    
 }
 
