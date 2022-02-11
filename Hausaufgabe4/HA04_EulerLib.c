@@ -8,8 +8,8 @@
 void RHS_MSD(double*rhs, double*y){ // mass spring damper
 
     double m = 1.0; // mass of object
-    double c = 5; // feder constant
-    double d = 0.25; // damper constant
+    double c = 2; // feder constant
+    double d = 3; // damper constant
 
     double x = y[0]; // position
     double v = y[1]; // speed
@@ -107,8 +107,7 @@ void showResults_MSD(simHandle* handle){
     fprintf(gnuplotPipe, "set title 'Spring-Damper-System' font ',20'\n");
     fprintf(gnuplotPipe, "set key right box\n");
     fprintf(gnuplotPipe, "set xlabel 'time in s'\n");
-    fprintf(gnuplotPipe, "set terminal wxt size 1300,600\n");
-
+    
     fprintf(gnuplotPipe, "plot 'simData.txt' using 1:2 title 'position', 'simData.txt' using 1:3 title 'speed'\n");
     
     fprintf(gnuplotPipe, "exit");
