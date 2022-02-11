@@ -14,14 +14,11 @@ void RHS_MSD(double*rhs, double*y){ // mass spring damper
     double x = y[0]; // position
     double v = y[1]; // speed
 
-    /*calc derivatives and store in rhs
-    //rhs[0]=(xdot) und rhs[1] (vvdot)
-    mit Formeln 7 und 8 und x und v werten aus y
-
-
-    /* YOUR CODE HERE */
-    /* ---------------*/
-
+    
+    //MY NEW CODE
+    rhs[0] = v;
+    rhs[1] = -(((d/m)*v)+((c/m)*x));
+    //MY NEW CODE
 }
 
 void eulerSettings_MSD(simHandle* handle){
