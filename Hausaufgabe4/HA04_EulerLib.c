@@ -34,34 +34,33 @@ void eulerSettings_MSD(simHandle* handle){
 
     /*get user defined Simtime*/
     handle->simTime = -1.0;
+    printf("Simtime (in s): \n");
+    scanf("%lf", &(handle->simTime));
     while(handle->simTime<=0 || handle->simTime>__DBL_MAX__){
-        printf("Simtime (in s): \n");
-        scanf("%lf", &(handle->simTime));
-        if(handle->simTime<=0 || handle->simTime>__DBL_MAX__){
         printf("invalid input. Try again.\n");
         fflush(stdin);
-        }
+        printf("Simtime (in s): \n");
+        scanf("%lf", &(handle->simTime));
     }
     
     
     /*get user defined StepSize*/
 
     handle->stepSize = -1.0;
+    printf("StepSize (in s): \n");
+    scanf("%lf", &(handle->stepSize));
     while(handle->stepSize<=0 || handle->stepSize>__DBL_MAX__){
-        printf("StepSize (in s): \n");
-        scanf("%lf", &(handle->stepSize));
-        if(handle->stepSize<=0 || handle->stepSize>__DBL_MAX__){
         printf("invalid input. Try again.\n");
         fflush(stdin);
-        }
+        printf("StepSize (in s): \n");
+        scanf("%lf", &(handle->stepSize));
     }
+
     if (handle->stepSize>0.1)
     {
         printf("WARNING: Stepsize is very high. Probably inaccurate results\n\n");
     }
     
-
-
     /*get init state position*/
     printf("position(t = 0): \n");
     scanf("%lf", handle->stateVecInit);
