@@ -33,12 +33,34 @@ void eulerSettings_MSD(simHandle* handle){
     handle->stateVecInit = malloc(sizeof(double) * handle->numOfStates);
 
     /*get user defined Simtime*/
-    printf("Simtime (in s): \n");
-    scanf("%lf", &(handle->simTime));
-
+    handle->simTime = -1.0;
+    while(handle->simTime<=0 || handle->simTime>__DBL_MAX__){
+        printf("Simtime (in s): \n");
+        scanf("%lf", &(handle->simTime));
+        if(handle->simTime<=0 || handle->simTime>__DBL_MAX__){
+        printf("invalid input. Try again.\n");
+        fflush(stdin);
+        }
+    }
+    
+    
     /*get user defined StepSize*/
-    printf("StepSize (in s): \n");
-    scanf("%lf", &(handle->stepSize));
+
+    handle->stepSize = -1.0;
+    while(handle->stepSize<=0 || handle->stepSize>__DBL_MAX__){
+        printf("StepSize (in s): \n");
+        scanf("%lf", &(handle->stepSize));
+        if(handle->stepSize<=0 || handle->stepSize>__DBL_MAX__){
+        printf("invalid input. Try again.\n");
+        fflush(stdin);
+        }
+    }
+    if (handle->stepSize>0.1)
+    {
+        printf("WARNING: Stepsize is very high. Probably inaccurate results\n\n");
+    }
+    
+
 
     /*get init state position*/
     printf("position(t = 0): \n");
@@ -72,7 +94,7 @@ void eulerForward(simHandle* handle){ // this is called only once
 
     for(int i = 0; i < integratorSteps; i++){
         /*get derivatives*/
-        RHS_MSD((handle->derivStateVec)+i*2, (handle->stateVec)+i*2);
+        (*(handle->f))((handle->derivStateVec)+i*2, (handle->stateVec)+i*2);
 
         for(int j = 0; j < numOfStates; j++){
         /*euler step*/
@@ -108,7 +130,7 @@ void showResults_MSD(simHandle* handle){
     fprintf(gnuplotPipe, "set key right box\n");
     fprintf(gnuplotPipe, "set xlabel 'time in s'\n");
     
-    fprintf(gnuplotPipe, "plot 'simData.txt' using 1:2 title 'position', 'simData.txt' using 1:3 title 'speed'\n");
+    fprintf(gnuplotPipe, "plot 'simData.txt' using 1:2 title 'position' with lines lw 3, 'simData.txt' using 1:3 title 'speed' with lines lw 3\n");
     
     fprintf(gnuplotPipe, "exit");
 
