@@ -30,7 +30,7 @@ void eulerSettings_MSD(simHandle* handle){
     handle->f = &RHS_MSD;
    
     /*reserve storage for init state vec*/
-    handle->stateVecInit = malloc(sizeof(double) * handle->numOfStates);
+    handle->stateVecInit = (double *) malloc(sizeof(double) * handle->numOfStates);
 
     /*get user defined Simtime*/
     handle->simTime = -1.0;
@@ -71,8 +71,8 @@ void eulerSettings_MSD(simHandle* handle){
 
     /*reserve storage for states and derivatives*/
     int storageLength = handle->numOfStates * ((int)ceil(handle->simTime/handle->stepSize));
-    handle->stateVec = malloc(sizeof(double) * storageLength);
-    handle->derivStateVec = malloc(sizeof(double) * storageLength);
+    handle->stateVec = (double *) malloc(sizeof(double) * storageLength);
+    handle->derivStateVec = (double *) malloc(sizeof(double) * storageLength);
     
     /*init states and derivatives with zero*/
     for(int i=0; i<storageLength; i++){
